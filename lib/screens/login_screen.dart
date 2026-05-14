@@ -42,8 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         String token = data['data']['token'];
+        String name = data['data']['user']['name'] ?? 'User';
         
         await _storage.write(key: 'token', value: token);
+        await _storage.write(key: 'name', value: name);
 
         if (mounted) {
           showCenterNotification(context, 'Login Berhasil');
