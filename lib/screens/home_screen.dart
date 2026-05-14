@@ -76,6 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Batal')),
           ElevatedButton(
             onPressed: () async {
+              if (nameCtrl.text.isEmpty || priceCtrl.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Semua kolom wajib diisi!')),
+                );
+                return;
+              }
               String? token = await _storage.read(key: 'token');
               if (token != null) {
                 bool res = await _apiService.saveProduct(token, nameCtrl.text, int.parse(priceCtrl.text), descCtrl.text);
@@ -127,6 +133,12 @@ class _HomeScreenState extends State<HomeScreen> {
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Batal')),
           ElevatedButton(
             onPressed: () async {
+              if (nameCtrl.text.isEmpty || priceCtrl.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Semua kolom wajib diisi!')),
+                );
+                return;
+              }
               String? token = await _storage.read(key: 'token');
               if (token != null) {
                 bool res = await _apiService.submitAssignment(token, {
