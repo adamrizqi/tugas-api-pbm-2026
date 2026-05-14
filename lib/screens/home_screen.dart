@@ -41,10 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void _logout() async {
     await _storage.delete(key: 'token');
     if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+      showCenterNotification(context, 'Berhasil Logout');
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
     }
   }
 
