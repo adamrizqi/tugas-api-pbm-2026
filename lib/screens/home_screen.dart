@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/produk_model.dart';
 import '../services/api_service.dart';
+import '../utils/notif_helper.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,10 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (token != null) {
       bool res = await _apiService.deleteProduct(token, id);
       if (res) {
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Draft berhasil dihapus')));
+        if (mounted) showCenterNotification(context, 'Draft berhasil dihapus');
         _fetchData();
       } else {
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal menghapus draft')));
+        if (mounted) showCenterNotification(context, 'Gagal menghapus draft', isError: true);
       }
     }
   }
@@ -77,9 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ElevatedButton(
             onPressed: () async {
               if (nameCtrl.text.isEmpty || priceCtrl.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Semua kolom wajib diisi!')),
-                );
+                showCenterNotification(context, 'Semua kolom wajib diisi!', isError: true);
                 return;
               }
               String? token = await _storage.read(key: 'token');
@@ -90,13 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                 if (res) {
                   if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Draft tersimpan')));
+                    showCenterNotification(context, 'Draft tersimpan');
                   }
                   await Future.delayed(const Duration(milliseconds: 500));
                   _fetchData();
                 } else {
                   if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal menyimpan draft')));
+                    showCenterNotification(context, 'Gagal menyimpan draft', isError: true);
                   }
                 }
               }
@@ -134,9 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ElevatedButton(
             onPressed: () async {
               if (nameCtrl.text.isEmpty || priceCtrl.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Semua kolom wajib diisi!')),
-                );
+                showCenterNotification(context, 'Semua kolom wajib diisi!', isError: true);
                 return;
               }
               String? token = await _storage.read(key: 'token');
@@ -152,11 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                 if (res) {
                   if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tugas berhasil disubmit')));
+                    showCenterNotification(context, 'Tugas berhasil disubmit');
                   }
                 } else {
                   if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal submit tugas')));
+                    showCenterNotification(context, 'Gagal submit tugas', isError: true);
                   }
                 }
               }

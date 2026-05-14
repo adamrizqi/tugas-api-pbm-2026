@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../utils/notif_helper.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -45,9 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await _storage.write(key: 'token', value: token);
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login Berhasil')),
-          );
+          showCenterNotification(context, 'Login Berhasil');
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -55,16 +54,12 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       } else {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login Gagal, periksa NIM')),
-          );
+          showCenterNotification(context, 'Login Gagal, periksa NIM', isError: true);
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        showCenterNotification(context, 'Error: $e', isError: true);
       }
     } finally {
       if (mounted) {
