@@ -8,7 +8,6 @@ void showCenterNotification(BuildContext context, String message, {bool isError 
     barrierColor: Colors.black.withOpacity(0.2),
     barrierDismissible: false,
     builder: (dialogContext) {
-      // Auto dismiss
       Future.delayed(const Duration(milliseconds: 1800), () {
         if (Navigator.canPop(dialogContext)) {
           Navigator.pop(dialogContext);

@@ -112,7 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 60),
                 
-                // Form Section
                 _buildLabel('USERNAME'),
                 _buildTextField(
                   controller: _usernameController,
@@ -127,7 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 80),
                 
-                // Login Button
                 SizedBox(
                   width: double.infinity,
                   height: 56,
