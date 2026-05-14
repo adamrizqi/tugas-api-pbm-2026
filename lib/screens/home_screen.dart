@@ -92,9 +92,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 showCenterNotification(context, 'Semua kolom wajib diisi!', isError: true);
                 return;
               }
+              
+              int? price = int.tryParse(priceCtrl.text);
+              if (price == null) {
+                showCenterNotification(context, 'Harga harus berupa angka!', isError: true);
+                return;
+              }
+
               String? token = await _storage.read(key: 'token');
               if (token != null) {
-                bool res = await _apiService.saveProduct(token, nameCtrl.text, int.parse(priceCtrl.text), descCtrl.text);
+                bool res = await _apiService.saveProduct(token, nameCtrl.text, price, descCtrl.text);
                 
                 if (context.mounted) Navigator.pop(context);
                 
@@ -145,15 +152,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF775A19)),
             onPressed: () async {
-              if (nameCtrl.text.isEmpty || priceCtrl.text.isEmpty) {
+              if (nameCtrl.text.isEmpty || priceCtrl.text.isEmpty || githubCtrl.text.isEmpty) {
                 showCenterNotification(context, 'Semua kolom wajib diisi!', isError: true);
                 return;
               }
+
+              int? price = int.tryParse(priceCtrl.text);
+              if (price == null) {
+                showCenterNotification(context, 'Harga harus berupa angka!', isError: true);
+                return;
+              }
+
               String? token = await _storage.read(key: 'token');
               if (token != null) {
                 bool res = await _apiService.submitAssignment(token, {
                   'name': nameCtrl.text,
-                  'price': int.parse(priceCtrl.text),
+                  'price': price,
                   'description': descCtrl.text,
                   'github_url': githubCtrl.text,
                 });
