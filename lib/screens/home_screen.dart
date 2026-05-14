@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/produk_model.dart';
 import '../services/api_service.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _productsFuture = _apiService.getProducts(token);
       });
+    }
+  }
+
+  void _logout() async {
+    await _storage.delete(key: 'token');
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
     }
   }
 
@@ -150,6 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Katalog Produk'),
+        leading: IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: _logout,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.send),

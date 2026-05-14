@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   bool _isLoading = false;
+  bool _isObscure = true;
 
   Future<void> _login() async {
     setState(() {
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Praktikum'),
+        title: const Text('Login'),
         centerTitle: true,
       ),
       body: Padding(
@@ -89,17 +90,27 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(
-                labelText: 'Username (NIM)',
+                labelText: 'Username',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 15),
             TextField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password (NIM)',
-                border: OutlineInputBorder(),
+              obscureText: _isObscure,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isObscure ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isObscure = !_isObscure;
+                    });
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 25),
